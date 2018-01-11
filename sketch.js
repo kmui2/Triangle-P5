@@ -5,7 +5,7 @@ let angleSlider;
 
 let point1, point2;
 let segment1;
-let ray1, ray2;
+let ray1, ray2, ray3;
 
 
 function setup() {
@@ -16,6 +16,7 @@ function setup() {
 	point1 = new Point(0,0,'A');
 	ray1 = new Ray(10, angleSlider.value, point1, 'B');
 	ray2 = new Ray(10, angleSlider.value, ray1.point, 'C');
+	ray3 = new Ray(10, angleSlider.value, ray2.point, 'D');
 
 }
 
@@ -28,6 +29,7 @@ function draw() {
 	point1.draw();
 	ray1.update(angleSlider.value);
 	ray2.update(angleSlider.value);
+	ray3.update(angleSlider.value);
 	pop();
 }
 
@@ -96,8 +98,8 @@ class Segment {
 		
 		fill(0, 102, 153);
 		scale(1,-1);
-		let x = this.point1.x+this.point2.x/2;
-		let y = this.point1.y+this.point2.y/2;
+		let x = (this.point1.x+this.point2.x)/2;
+		let y = (this.point1.y+this.point2.y)/2;
 		text(this.getLength().toFixed(4), pixel(x)-20, -pixel(y)-20);
 		pop();
 	}
