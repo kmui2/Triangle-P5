@@ -5,7 +5,7 @@ let angleSlider;
 
 let point1, point2;
 let segment1;
-let ray1;
+let ray1, ray2;
 
 
 function setup() {
@@ -15,6 +15,7 @@ function setup() {
 	console.log(angleSlider);
 	point1 = new Point(0,0,'A');
 	ray1 = new Ray(10, angleSlider.value, point1, 'B');
+	ray2 = new Ray(10, angleSlider.value, ray1.point, 'C');
 
 }
 
@@ -26,7 +27,7 @@ function draw() {
 
 	point1.draw();
 	ray1.update(angleSlider.value);
-	ray1.draw();
+	ray2.update(angleSlider.value);
 	pop();
 }
 
@@ -35,13 +36,15 @@ class Ray {
 	constructor (length, angle, originPt, name) {
 		this.angle = angle;
 		this.length = length;
-		this.point = new Point(length*Math.cos(angle),length*Math.sin(angle), 'hello1', name);
+		this.originPt = originPt;
+		this.point = new Point(length*Math.cos(angle)+originPt.x,length*Math.sin(angle)+originPt.y, name);
 		this.segment = new Segment(originPt, this.point);
 	}
 
 	update(angle) {
-		this.point.x = this.length*Math.cos(angle/SLIDER_TO_ANGLE);
-		this.point.y = this.length*Math.sin(angle/SLIDER_TO_ANGLE);
+		this.point.x = this.length*Math.cos(angle/SLIDER_TO_ANGLE)+this.originPt.x;
+		this.point.y = this.length*Math.sin(angle/SLIDER_TO_ANGLE)+this.originPt.y;
+		this.draw();
 	}
 
 	draw() {
@@ -78,8 +81,8 @@ class Segment {
 	constructor(point1, point2) {
 		this.point1 = point1;
 		this.point2 = point2;
-		console.log(this.point1);
-		console.log(this.point2);
+		// console.log(this.point1);
+		// console.log(this.point2);
 	}
 	getLength () {
 		return math.distance([this.point1.x,this.point1.y],[this.point2.x,this.point2.y])
